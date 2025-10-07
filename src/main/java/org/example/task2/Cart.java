@@ -3,67 +3,55 @@ package org.example.task2;
 import java.util.Arrays;
 
 public class Cart {
+    private Item[] contents;
+    private int index;
 
-    public Item[] contents;
-    int index;
-
-    Cart(Item[] _contents) {
-        this.contents = _contents;
+    public Cart(int capacity) {
+        this.contents = new Item[capacity];
+        this.index = 0;
     }
 
-    public void removeById(int itemIndex) {
-
-        if (index == 0)
-            return;
-
-        int foundItemIndex = findItemInArray(contents[itemIndex]);
-
-        if (foundItemIndex == -1)
-            return;
-
-        if (foundItemIndex == index - 1) {
-            contents[index - 1] = null;
-            index--;
-            return;
+    public void add(Item item) {
+        if (this.index < this.contents.length) {
+            this.contents[this.index++] = item;
+        } else {
+            System.out.println("Cart is full!");
         }
-
-        shiftArray(foundItemIndex);
     }
 
-    public void shiftArray(int itemIndex) {
-        for (int i = itemIndex; i < index - 1; i++) {
-            contents[i] = contents[i + 1];
-        }
-        contents[index-1] = null;
-        index--;
-    }
-
-    public int findItemInArray(Item item) {
-        for (int i = 0; i < index; i++) {
-            if (contents[i].id == item.id) {
-                return i;
+    public void removeById(long id) {
+        for (int i = 0; i < this.index; i++) {
+            if (this.contents[i].getId() == id) {
+                // зсуваємо елементи вліво
+                for (int j = i; j < this.index - 1; j++) {
+                    this.contents[j] = this.contents[j + 1];
+                }
+                this.contents[--this.index] = null;
+                System.out.println("Item with id " + id + " removed.");
+                return;
             }
         }
-
-        return -1;
+        System.out.println("Item with id " + id + " not found.");
     }
 
-    void add(Item item) {
-        if (isCartFull())
-            return;
-
-        contents[index] = item;
-        index++;
+    public double getTotalSum() {
+        double sum = 0;
+        for (int i = 0; i < this.index; i++) {
+            sum += this.contents[i].getPrice();
+        }
+        return sum;
     }
 
-    public boolean isCartFull() {
-        return index == contents.length;
+    public Item[] getItems() {
+        return Arrays.copyOf(this.contents, this.index);
     }
 
     @Override
     public String toString() {
-        return "Cart{" +
-                "contents=" + Arrays.toString(contents) +
-                '}' + "\n";
+        StringBuilder builder = new StringBuilder("Cart contents:\n");
+        for (int i = 0; i < this.index; i++) {
+            builder.append(this.contents[i]).append("\n");
+        }
+        return builder.toString();
     }
 }
