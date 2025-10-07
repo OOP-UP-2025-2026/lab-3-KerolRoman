@@ -65,16 +65,16 @@ public class IntStack {
         stack.push(10);
         stack.push(20);
         stack.push(30);
-        System.out.println(stack); // [10, 20, 30]
+        System.out.println(stack);
 
-        System.out.println("Peek: " + stack.peek()); // 30
-        System.out.println("Pop: " + stack.pop());   // 30
-        System.out.println(stack);                   // [10, 20]
+        System.out.println("Peek: " + stack.peek());
+        System.out.println("Pop: " + stack.pop());
+        System.out.println(stack);
 
-        System.out.println("Size: " + stack.size()); // 2
-        System.out.println("Is empty: " + stack.isEmpty()); // false
+        System.out.println("Size: " + stack.size());
+        System.out.println("Is empty: " + stack.isEmpty());
 
         stack.clear();
-        System.out.println("After clear: " + stack); // []
+        System.out.println("After clear: " + stack);
     }
 }
